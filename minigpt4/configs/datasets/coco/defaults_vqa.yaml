@@ -16,9 +16,9 @@ datasets:
               - https://storage.googleapis.com/sfr-vision-language-research/LAVIS/datasets/vqav2/vqa_train.json
               - https://storage.googleapis.com/sfr-vision-language-research/LAVIS/datasets/vqav2/vqa_val.json
           storage:
-              - /path/to/vqav2/vqa_train.json
-              - /path/to/vqav2/vqa_val.json
+              - /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/vqav2/vqa_train.json
+              - /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/vqav2/vqa_val.json
       images:
-          storage: /path/to/coco/images
+          storage: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/coco/images
 
   

@@ -2,5 +2,5 @@ datasets:
   flickr_CaptionToPhrase:
     data_type: images
     build_info:
-      image_path: /path/to/filtered_flikcr/images
-      ann_path: /path/to/filtered_flickr/captiontobbox.json
+      image_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/filtered_flikcr/images
+      ann_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/filtered_flikcr/captiontobbox.json

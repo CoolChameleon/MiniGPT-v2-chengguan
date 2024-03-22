@@ -43,7 +43,12 @@ class AOKVQADataset(VQADataset, __DisplMixin):
 
         exist_annotation = []
         for ann in self.annotation:
-            image_path = os.path.join(self.vis_root, ann["image"].split('/')[-1])
+            try:
+                image_path = os.path.join(self.vis_root, ann["image"].split('/')[-1])
+            except KeyError as e:
+                print(f"KeyError: {e} in {ann}")
+                print(ann.keys())
+                
             if os.path.exists(image_path):
                 exist_annotation.append(ann)
         self.annotation = exist_annotation

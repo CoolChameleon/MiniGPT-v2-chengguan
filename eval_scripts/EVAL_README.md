@@ -83,6 +83,9 @@ torchrun --master-port ${port} --nproc_per_node 1 eval_ref.py \
  --cfg-path ${cfg_path} --dataset refcoco,refcoco+,refcocog --resample
 ```
 
+```
+CUDA_VISIBLE_DEVICES=0 torchrun --master-port 32777 --nproc_per_node 1 eval_ref.py --cfg-path /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/debug_config/eval/test_refdet_v1_0312/test1.yaml --name test1 --dataset refcoco --resample
+```
 
 ### start evaluating visual question answering
 

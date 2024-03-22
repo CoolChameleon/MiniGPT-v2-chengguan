@@ -18,6 +18,7 @@ from minigpt4.datasets.datasets.aok_vqa_datasets import AOKVQADataset
 from minigpt4.datasets.datasets.coco_vqa_datasets import COCOVQADataset
 from minigpt4.datasets.datasets.ocrvqa_dataset import OCRVQADataset
 from minigpt4.datasets.datasets.coco_caption import COCOCapDataset
+from minigpt4.datasets.datasets.refdet import RefDetTrainDataset
 
 
 @registry.register_builder("multitask_conversation")
@@ -530,6 +531,40 @@ class CCSBUAlignBuilder(BaseDatasetBuilder):
             text_processor=self.text_processors["train"],
             ann_paths=[os.path.join(storage_path, 'filter_cap.json')],
             vis_root=os.path.join(storage_path, 'image'),
+        )
+
+        return datasets
+
+
+
+@registry.register_builder("refdet_v1")
+class RefDetBuilder(BaseDatasetBuilder):
+    train_dataset_cls = RefDetTrainDataset
+    DATASET_CONFIG_DICT = {"default": "../chengguan_config/datasets/refdet_v1.yaml"}
+
+    def build_datasets(self):
+        # at this point, all the annotations and image/videos should be all downloaded to the specified locations.
+        logging.info("Building datasets...")
+        self.build_processors()
+
+        build_info = self.config.build_info
+        image_path = build_info.image_path
+        ann_path = build_info.ann_path
+
+        datasets = dict()
+
+        if not os.path.exists(image_path):
+            warnings.warn("image path {} does not exist.".format(image_path))
+        if not os.path.exists(ann_path):
+            warnings.warn("ann path {} does not exist.".format(ann_path))
+
+        # create datasets
+        dataset_cls = self.train_dataset_cls
+        datasets['train'] = dataset_cls(
+            vis_processor=self.vis_processors["train"],
+            text_processor=self.text_processors["train"],
+            ann_path=ann_path,
+            vis_root=image_path,
         )
 
         return datasets

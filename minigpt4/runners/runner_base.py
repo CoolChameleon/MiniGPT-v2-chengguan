@@ -197,6 +197,8 @@ class RunnerBase:
             dict: {split_name: (tuples of) dataloader}
         """
         if self._dataloaders is None:
+            # from ipdb import set_trace
+            # set_trace()
 
             # concatenate map-style datasets and chain wds.DataPipe datasets separately
             # training set becomes a tuple (ConcatDataset, ChainDataset), both are
@@ -532,16 +534,23 @@ class RunnerBase:
                 else:
                     sampler = None
 
-                loader = DataLoader(
-                    dataset,
-                    batch_size=bsz,
-                    num_workers=num_workers,
-                    pin_memory=True,
-                    sampler=sampler,
-                    shuffle=sampler is None and is_train,
-                    collate_fn=collate_fn,
-                    drop_last=True if is_train else False,
-                )
+                import ipdb
+                
+                try:
+                    loader = DataLoader(
+                        dataset,
+                        batch_size=bsz,
+                        num_workers=num_workers,
+                        pin_memory=True,
+                        sampler=sampler,
+                        shuffle=sampler is None and is_train,
+                        collate_fn=collate_fn,
+                        drop_last=True if is_train else False,
+                    )
+                except Exception as e:
+                    ipdb.set_trace()
+                    print(e)
+                    
                 loader = PrefetchLoader(loader)
 
                 if is_train:

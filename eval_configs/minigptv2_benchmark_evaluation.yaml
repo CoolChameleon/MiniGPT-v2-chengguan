@@ -23,18 +23,18 @@ datasets:
 
 evaluation_datasets:
   refcoco:
-    eval_file_path: /path/to/eval/annotation/path  
-    img_path: /path/to/eval/image/path      
+    eval_file_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_eval_dataset/refcoco/instances.json  
+    img_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/coco/images     
     max_new_tokens: 20
     batch_size: 10
   refcocog:
-    eval_file_path: /path/to/eval/annotation/path  
-    img_path: /path/to/eval/image/path    
+    eval_file_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_eval_dataset/refcoco+/instances.json  
+    img_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/coco/images         
     max_new_tokens: 20
     batch_size: 10
   refcoco+:
-    eval_file_path: /path/to/eval/annotation/path  
-    img_path: /path/to/eval/image/path    
+    eval_file_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_eval_dataset/refcocog/instances.json  
+    img_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/coco/images        
     max_new_tokens: 20
     batch_size: 10
   gqa:

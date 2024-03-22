@@ -2,5 +2,5 @@ datasets:
   ocrvqa:
     data_type: images
     build_info:
-      image_path: /path/to/ocrvqa/images
-      ann_path: /path/to/ocrvqa/dataset.json
+      image_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/ocrvqa/images
+      ann_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/ocrvqa/dataset.json

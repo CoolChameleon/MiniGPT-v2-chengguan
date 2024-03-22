@@ -1,0 +1,6 @@
+datasets:
+  refdet_v1:
+    data_type: images
+    build_info:
+      image_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/refdet_v2/images
+      ann_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/refdet_v2/annotations/train.json

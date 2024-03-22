@@ -2,4 +2,4 @@ datasets:
   refvg:
     data_type: images
     build_info:
-      data_dir: /path/to/visual_genome
+      data_dir: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/visual_genome

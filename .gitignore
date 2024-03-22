@@ -182,3 +182,8 @@ sbatch_generate*
 eval_data/
 dataset/Evaluation.md
 jupyter_notebook.slurm
+
+checkpoint
+chengguan_dataset
+minigpt_eval_dataset
+minigpt_ft_dataset

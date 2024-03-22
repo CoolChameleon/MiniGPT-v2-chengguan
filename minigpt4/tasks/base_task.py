@@ -56,6 +56,7 @@ class BaseTask:
             dataset_config = datasets_config[name]
 
             builder = registry.get_builder_class(name)(dataset_config)
+            # from ipdb import set_trace; set_trace()
             dataset = builder.build_datasets()
 
             dataset['train'].name = name

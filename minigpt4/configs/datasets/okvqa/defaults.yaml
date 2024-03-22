@@ -16,6 +16,6 @@ datasets:
               # TODO make this order insensitive
               - https://storage.googleapis.com/sfr-vision-language-research/LAVIS/datasets/okvqa/okvqa_train.json
           storage:
-              - /path/to/okvqa/okvqa_train.json
+              - /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/okvqa/okvqa_train.json
       images:
-          storage: /path/to/coco/images
+          storage: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/coco/images

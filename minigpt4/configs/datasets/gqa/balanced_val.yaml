@@ -15,7 +15,7 @@ datasets:
           url:
               - https://storage.googleapis.com/sfr-vision-language-research/LAVIS/datasets/gqa/train_balanced_questions.json
           storage:
-              - /path/to/gqa/train_balanced_questions.json
+              - /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/gqa/train_balanced_questions.json
 
       images:
-          storage: /path/to/gqa/images
+          storage: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/gqa/images

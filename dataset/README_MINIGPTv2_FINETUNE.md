@@ -8,7 +8,7 @@ Image source | Download path
 COCO 2014 images | <a href="http://images.cocodataset.org/zips/train2014.zip">images</a> &nbsp;&nbsp;  <a href="https://storage.googleapis.com/sfr-vision-language-research/datasets/coco_karpathy_train.json"> captions</a>
 COCO VQA | <a href="https://storage.googleapis.com/sfr-vision-language-research/LAVIS/datasets/vqav2/vqa_train.json">vqa train</a> &nbsp;&nbsp;  <a href="https://storage.googleapis.com/sfr-vision-language-research/LAVIS/datasets/vqav2/vqa_val.json"> vqa val</a>
 Visual Genome |  <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images.zip">images part1</a> &nbsp;&nbsp; <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images2.zip">images part2</a> &nbsp;&nbsp; <a href="https://homes.cs.washington.edu/~ranjay/visualgenome/data/dataset/image_data.json.zip"> image meta data </a>
-TextCaps | <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images.zip">images</a>  &nbsp;&nbsp; <a href="https://dl.fbaipublicfiles.com/textvqa/data/textcaps/TextCaps_0.1_train.json"> annotations</a> 
+TextCaps | <a href="https://dl.fbaipublicfiles.com/textvqa/images/train_val_images.zip">images</a>  &nbsp;&nbsp; <a href="https://dl.fbaipublicfiles.com/textvqa/data/textcaps/TextCaps_0.1_train.json"> annotations</a> 
 RefCOCO | <a href="https://bvisionweb1.cs.unc.edu/licheng/referit/data/refcoco.zip"> annotations </a>
 RefCOCO+ | <a href="https://bvisionweb1.cs.unc.edu/licheng/referit/data/refcoco+.zip"> annotations </a>
 RefCOCOg | <a href="https://bvisionweb1.cs.unc.edu/licheng/referit/data/refcocog.zip"> annotations </a>

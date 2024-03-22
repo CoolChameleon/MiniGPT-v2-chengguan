@@ -32,6 +32,8 @@ from minigpt4.processors import *
 from minigpt4.runners import *
 from minigpt4.tasks import *
 
+import torch.distributed.elastic.multiprocessing as epm
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Training")
@@ -69,6 +71,7 @@ def get_runner_class(cfg):
     return runner_cls
 
 
+@epm.errors.record
 def main():
     # allow auto-dl completes on main process without timeout when using NCCL backend.
     # os.environ["NCCL_BLOCKING_WAIT"] = "1"

@@ -4,8 +4,8 @@ model:
   max_txt_len: 1024
   image_size: 448
   end_sym: "</s>"
-  llama_model: "/path/to/llama_checkpoint"
-  ckpt: "/path/to/pretrained_checkpoint"
+  llama_model: "/data00/hc/checkpoint/huggingface/models--meta-llama--Llama-2-7b-hf"
+  ckpt: "/data00/hc/checkpoint/minigpt-v2/checkpoint_stage2.pth"
   use_grad_checkpoint: True
   chat_template: True
   lora_r: 64
@@ -228,16 +228,16 @@ datasets:
         name: "blip_caption"
     sample_ratio: 8
 
-  aok_vqa: 
-    batch_size: 6
-    vis_processor:
-      train:
-        name: "blip2_image_train"
-        image_size: 448
-    text_processor:
-      train:
-        name: "blip_caption"
-    sample_ratio: 12
+  # aok_vqa: 
+  #   batch_size: 6
+  #   vis_processor:
+  #     train:
+  #       name: "blip2_image_train"
+  #       image_size: 448
+  #   text_processor:
+  #     train:
+  #       name: "blip_caption"
+  #   sample_ratio: 12
 
   gqa:  
     batch_size: 6
@@ -277,7 +277,7 @@ run:
   iters_per_epoch: 1000
 
   seed: 42
-  output_dir: "/path/to/save_checkpoint"
+  output_dir: "/data00/hc/checkpoint/real_graduate"
 
   amp: True
   resume_ckpt_path: null

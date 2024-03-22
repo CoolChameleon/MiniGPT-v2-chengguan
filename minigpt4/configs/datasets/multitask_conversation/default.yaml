@@ -3,5 +3,5 @@ datasets:
     data_type: images
     build_info:
     
-      image_path: /path/to/coco/images
-      ann_path: /path/to/multitask_conversation/multi_task_conversation.json
+      image_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/coco/images
+      ann_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/minigpt_ft_dataset/multitask_conversation/multi_task_conversation.json
