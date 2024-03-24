@@ -112,7 +112,6 @@ for dataset in args.dataset:
         res = args.res
         refcoco_dict = defaultdict()
         
-        from ipdb import set_trace; set_trace()
 
         for item in refcoco:
             refcoco_dict[item['img_id']] = item

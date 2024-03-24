@@ -329,7 +329,11 @@ class RunnerBase:
         """
         Set to True to skip training.
         """
-        return self.config.run_cfg.evaluate
+        return self.config.run_cfg.evaluate_only
+
+    @property
+    def evaluate_every(self):
+        return self.config.run_cfg.get("evaluate_every", 1)
 
     @property
     def use_dist_eval_sampler(self):
@@ -358,6 +362,11 @@ class RunnerBase:
         registry.register_path("result_dir", str(result_dir))
         registry.register_path("output_dir", str(output_dir))
 
+        # from omegaconf import OmegaConf
+        # config_path = output_dir / "config.yaml"
+        # with open(config_path, "w") as f:
+        #     OmegaConf.save(config=self.config, f=f)
+
         self.result_dir = result_dir
         self.output_dir = output_dir
 
@@ -380,7 +389,7 @@ class RunnerBase:
                 self.log_stats(split_name="train", stats=train_stats)
 
             # evaluation phase
-            if len(self.valid_splits) > 0:
+            if len(self.valid_splits) > 0 and cur_epoch % self.evaluate_every == 0:
                 for split_name in self.valid_splits:
                     logging.info("Evaluating on {}.".format(split_name))
 
@@ -402,10 +411,9 @@ class RunnerBase:
                             val_log.update({"best_epoch": best_epoch})
                             self.log_stats(val_log, split_name)
 
-            else:
-                # if no validation split is provided, we just save the checkpoint at the end of each epoch.
-                if not self.evaluate_only:
-                    self._save_checkpoint(cur_epoch, is_best=False)
+            # if no validation split is provided, we just save the checkpoint at the end of each epoch.
+            if not self.evaluate_only:
+                self._save_checkpoint(cur_epoch, is_best=False)
 
             if self.evaluate_only:
                 break
@@ -551,7 +559,8 @@ class RunnerBase:
                     ipdb.set_trace()
                     print(e)
                     
-                loader = PrefetchLoader(loader)
+                # loader = PrefetchLoader(loader)
+                loader = IterLoader(loader, use_distributed=self.use_distributed)    
 
                 if is_train:
                     loader = IterLoader(loader, use_distributed=self.use_distributed)

@@ -548,23 +548,30 @@ class RefDetBuilder(BaseDatasetBuilder):
         self.build_processors()
 
         build_info = self.config.build_info
-        image_path = build_info.image_path
-        ann_path = build_info.ann_path
 
         datasets = dict()
+        for split in ["train", "eval"]:
+            if split not in build_info:
+                continue
+            image_path = build_info[split].image_path
+            ann_path = build_info[split].ann_path
 
-        if not os.path.exists(image_path):
-            warnings.warn("image path {} does not exist.".format(image_path))
-        if not os.path.exists(ann_path):
-            warnings.warn("ann path {} does not exist.".format(ann_path))
+            if not os.path.exists(image_path):
+                warnings.warn("image path {} does not exist.".format(image_path))
+            if not os.path.exists(ann_path):
+                warnings.warn("ann path {} does not exist.".format(ann_path))
 
-        # create datasets
-        dataset_cls = self.train_dataset_cls
-        datasets['train'] = dataset_cls(
-            vis_processor=self.vis_processors["train"],
-            text_processor=self.text_processors["train"],
-            ann_path=ann_path,
-            vis_root=image_path,
-        )
-
+            # create datasets
+            dataset_cls = self.train_dataset_cls
+            datasets[split] = dataset_cls(
+                vis_processor=self.vis_processors[split],
+                text_processor=self.text_processors[split],
+                ann_path=ann_path,
+                vis_root=image_path,
+            )
+        
         return datasets
+    
+@registry.register_builder("refdet_v3")
+class RefDetV3Builder(RefDetBuilder):
+    DATASET_CONFIG_DICT = {"default": "../chengguan_config/datasets/refdet_v3.yaml"}

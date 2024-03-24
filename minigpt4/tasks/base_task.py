@@ -72,7 +72,9 @@ class BaseTask:
         return loss
 
     def valid_step(self, model, samples):
-        raise NotImplementedError
+        with torch.no_grad():
+            loss = model(samples)["loss"]
+            return loss
 
     def before_evaluation(self, model, dataset, **kwargs):
         model.before_evaluation(dataset=dataset, task_type=type(self))
@@ -87,18 +89,26 @@ class BaseTask:
         metric_logger = MetricLogger(delimiter="  ")
         header = "Evaluation"
         # TODO make it configurable
-        print_freq = 10
+        print_freq = 50
+        len_eval = 100
 
         results = []
 
-        for samples in metric_logger.log_every(data_loader, print_freq, header):
+        for i in metric_logger.log_every(range(len_eval), print_freq, header):
+            # from ipdb import set_trace; set_trace()
+            samples = next(data_loader)
             samples = prepare_sample(samples, cuda_enabled=cuda_enabled)
 
             eval_output = self.valid_step(model=model, samples=samples)
-            results.extend(eval_output)
+            results.append(eval_output)
 
         if is_dist_avail_and_initialized():
             dist.barrier()
+
+        if self.cfg.run_cfg.wandb_log:
+            wandb.log({"valid_loss": sum([float(loss) for loss in results]) / len(results)})
+        
+        logging.info(f"Validation loss: {sum([float(loss) for loss in results]) / len(results)}")
 
         return results
 
