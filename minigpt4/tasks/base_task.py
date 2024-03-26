@@ -90,7 +90,7 @@ class BaseTask:
         header = "Evaluation"
         # TODO make it configurable
         print_freq = 50
-        len_eval = 100
+        len_eval = 250
 
         results = []
 
@@ -105,7 +105,7 @@ class BaseTask:
         if is_dist_avail_and_initialized():
             dist.barrier()
 
-        if self.cfg.run_cfg.wandb_log:
+        if self.cfg.run_cfg.wandb_log and get_rank() == 0:
             wandb.log({"valid_loss": sum([float(loss) for loss in results]) / len(results)})
         
         logging.info(f"Validation loss: {sum([float(loss) for loss in results]) / len(results)}")
@@ -246,7 +246,7 @@ class BaseTask:
                     optimizer.step()
                 optimizer.zero_grad()
                 # if self.cfg.wandb_log:
-                if self.cfg.run_cfg.wandb_log:
+                if self.cfg.run_cfg.wandb_log and get_rank() == 0:
                     wandb.log({"epoch": inner_epoch, "loss": loss})
             metric_logger.update(loss=loss.item())
             metric_logger.update(lr=optimizer.param_groups[0]["lr"])

@@ -92,7 +92,7 @@ def main():
     datasets = task.build_datasets(cfg)
     model = task.build_model(cfg)
 
-    if cfg.run_cfg.wandb_log:
+    if cfg.run_cfg.wandb_log and get_rank() == 0:
         wandb.login()
         wandb.init(project="minigptv", name=cfg.run_cfg.job_name)
         wandb.watch(model)

@@ -79,10 +79,10 @@ for dataset in args.dataset:
                 pattern = r'\{<\d{1,3}><\d{1,3}><\d{1,3}><\d{1,3}>\}'
                 if re.match(pattern, answer):
                     minigpt4_predict[int(img_id)].append(answer)
-                    exp = question.replace("[refer] give me the location of ","")
+                    exp = question.replace("[cm-refer] give me the location of ","")
                     minigpt4_predict_dict[int(img_id)][exp] = answer
                 else:
-                    resamples.append({'img_id': img_id, 'sents': [question.replace('[refer] give me the location of','').strip()]})
+                    resamples.append({'img_id': img_id, 'sents': [question.replace('[cm-refer] give me the location of','').strip()]})
         if args.resample:
             for i in range(20):
                 data = RefChengguanEvalData(resamples, vis_processor, img_path)
@@ -97,7 +97,7 @@ for dataset in args.dataset:
                         if re.match(pattern, answer) or i == 4:
                             minigpt4_predict[img_id].append(answer)
                         else:
-                            resamples.append({'img_id': img_id, 'sents': [question.replace('[refer] give me the location of','').strip()]})
+                            resamples.append({'img_id': img_id, 'sents': [question.replace('[cm-refer] give me the location of','').strip()]})
                             
                 if len(resamples) == 0:
                     break

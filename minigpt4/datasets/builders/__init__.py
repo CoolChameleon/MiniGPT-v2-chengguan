@@ -11,6 +11,7 @@ from minigpt4.datasets.builders.image_text_pair_builder import (
     LaionBuilder,
     CCSBUAlignBuilder
 )
+import minigpt4.datasets.builders.chengguan_dataset_builder
 from minigpt4.common.registry import registry
 
 __all__ = [

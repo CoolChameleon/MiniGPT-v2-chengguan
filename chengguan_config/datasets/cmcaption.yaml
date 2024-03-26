@@ -1,0 +1,10 @@
+datasets:
+  cmcaption:
+    data_type: images
+    build_info:
+      train:
+        image_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/caption_v1/train/images
+        ann_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/caption_v1/train/annotations.json
+      eval:
+        image_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/caption_v1/val/images
+        ann_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/caption_v1/val/annotations.json
