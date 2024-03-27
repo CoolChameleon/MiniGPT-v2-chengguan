@@ -8,6 +8,7 @@
 import argparse
 import os
 import random
+import shutil
 
 import numpy as np
 import torch
@@ -87,6 +88,8 @@ def main():
     # set after init_distributed_mode() to only log on master.
     setup_logger()
     cfg.pretty_print()
+
+    shutil.copy(args.cfg_path, os.path.join(cfg.config.run.output_dir, "config.yaml"))
 
     task = tasks.setup_task(cfg)
     datasets = task.build_datasets(cfg)

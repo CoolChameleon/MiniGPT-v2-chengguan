@@ -73,6 +73,7 @@ for dataset in args.dataset:
 
         for images, questions, img_ids in tqdm(eval_dataloader):
             texts = prepare_texts(questions, conv_temp)  # warp the texts with conversation template
+            from ipdb import set_trace; set_trace()
             answers = model.generate(images, texts, max_new_tokens=max_new_tokens, do_sample=False)
             for answer, img_id, question in zip(answers, img_ids, questions):
                 answer = answer.replace("<unk>","").replace(" ","").strip()

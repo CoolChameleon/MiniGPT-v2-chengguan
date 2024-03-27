@@ -362,11 +362,6 @@ class RunnerBase:
         registry.register_path("result_dir", str(result_dir))
         registry.register_path("output_dir", str(output_dir))
 
-        # from omegaconf import OmegaConf
-        # config_path = output_dir / "config.yaml"
-        # with open(config_path, "w") as f:
-        #     OmegaConf.save(config=self.config, f=f)
-
         self.result_dir = result_dir
         self.output_dir = output_dir
 

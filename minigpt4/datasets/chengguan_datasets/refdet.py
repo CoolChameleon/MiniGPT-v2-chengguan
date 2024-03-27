@@ -2,12 +2,30 @@ import os
 import json
 import random
 import time
-import itertools
+from collections import defaultdict
+import re
 
 import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
 
+
+def computeIoU(bbox1, bbox2):
+    """
+    bbox的取值范围为[0, 100]，表示百分比
+    """
+    x1, y1, x2, y2 = bbox1
+    x3, y3, x4, y4 = bbox2
+    intersection_x1 = max(x1, x3)
+    intersection_y1 = max(y1, y3)
+    intersection_x2 = min(x2, x4)
+    intersection_y2 = min(y2, y4)
+    intersection_area = max(0, intersection_x2 - intersection_x1 + 1) * max(0, intersection_y2 - intersection_y1 + 1)
+    bbox1_area = (x2 - x1 + 1) * (y2 - y1 + 1)
+    bbox2_area = (x4 - x3 + 1) * (y4 - y3 + 1)
+    union_area = bbox1_area + bbox2_area - intersection_area
+    iou = intersection_area / union_area
+    return iou
 
 class RefDetDataset(Dataset):
     def __init__(self, vis_processor, text_processor, vis_root, ann_path):
@@ -88,8 +106,42 @@ class RefDetDataset(Dataset):
         }
     
 
-    def eval(self, ground_truth, answer):
-        answer = answer.replace("<unk>","").replace(" ","").strip()
+    def eval(self, gt_answers, model_answers):
+        assert len(gt_answers) == len(model_answers), f"Number of ground truth answers ({len(gt_answers)}) and model answers ({len(model_answers)}) should be the same"
+
+        pattern = r'\{<\d{1,3}><\d{1,3}><\d{1,3}><\d{1,3}>\}'
+
+        results = defaultdict(lambda : {"tp": 0, "total": 0, "sum_iou": 0})
+        
+        for i, (gt_answer, model_answer) in enumerate(zip(gt_answers, model_answers)):
+            if not re.match(pattern, gt_answer):
+                continue
+                
+            res = results[self.annotations[i]["sents"]]
+
+            if not re.match(pattern, model_answer):
+                res["total"] += 1
+                continue
+
+            gt_bbox = [int(x) for x in re.findall(r'\d{1,3}', gt_answer)]
+            model_bbox = [int(x) for x in re.findall(r'\d{1,3}', model_answer)]
+
+            iou = computeIoU(gt_bbox, model_bbox)
+            res["sum_iou"] += iou
+            if iou > 0.5:
+                res["tp"] += 1
+            res["total"] += 1
+
+        acc = sum(res["tp"] for res in results.values()) / sum(res["total"] for res in results.values())
+        mean_iou = sum(res["sum_iou"] for res in results.values()) / sum(res["total"] for res in results.values())
+
+        return {
+            "summary": {
+                "accuracy": acc,
+                "mean_iou": mean_iou,
+            },
+            "details": results
+        }
 
 
 

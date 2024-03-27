@@ -33,12 +33,15 @@ class RefDetBuilder(BaseDatasetBuilder):
                 warnings.warn("ann path {} does not exist.".format(ann_path))
 
             # create datasets
-            datasets[split] = self.dataset_cls(
-                vis_processor=self.vis_processors[split],
-                text_processor=self.text_processors[split],
-                ann_path=ann_path,
-                vis_root=image_path,
-            )
+            if self.vis_processors[split] is not None:
+                datasets[split] = self.dataset_cls(
+                    vis_processor=self.vis_processors[split],
+                    text_processor=self.text_processors[split],
+                    ann_path=ann_path,
+                    vis_root=image_path,
+                )
+            else:
+                self.vis_processors[split] = None
         
         return datasets
     
