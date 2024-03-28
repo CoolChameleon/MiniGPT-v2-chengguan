@@ -7,25 +7,13 @@ import re
 
 import numpy as np
 from PIL import Image
+from bert_score import BERTScorer
+import torch
 from torch.utils.data import Dataset
 
+from minigpt4.common.eval_utils import computeIoU
+from minigpt4.datasets.annotate.refdet_v3 import curious_categories_tranlation as categories
 
-def computeIoU(bbox1, bbox2):
-    """
-    bbox的取值范围为[0, 100]，表示百分比
-    """
-    x1, y1, x2, y2 = bbox1
-    x3, y3, x4, y4 = bbox2
-    intersection_x1 = max(x1, x3)
-    intersection_y1 = max(y1, y3)
-    intersection_x2 = min(x2, x4)
-    intersection_y2 = min(y2, y4)
-    intersection_area = max(0, intersection_x2 - intersection_x1 + 1) * max(0, intersection_y2 - intersection_y1 + 1)
-    bbox1_area = (x2 - x1 + 1) * (y2 - y1 + 1)
-    bbox2_area = (x4 - x3 + 1) * (y4 - y3 + 1)
-    union_area = bbox1_area + bbox2_area - intersection_area
-    iou = intersection_area / union_area
-    return iou
 
 class RefDetDataset(Dataset):
     def __init__(self, vis_processor, text_processor, vis_root, ann_path):
@@ -172,9 +160,36 @@ class InvRefDetDataset(RefDetDataset):
             "answer": self.text_processor(data['refer_sentence']),
         }
 
+    def eval(self, gt_answers, model_answers):
+        assert len(gt_answers) == len(model_answers), f"Number of ground truth answers ({len(gt_answers)}) and model answers ({len(model_answers)}) should be the same"
+
+        scorer = BERTScorer(model_type="microsoft/deberta-xlarge-mnli")
+
+        P, R, F1 = scorer.score(gt_answers, model_answers)
+
+        results = defaultdict(lambda : {"tp":0, "sum_p": 0, "sum_r": 0, "sum_f1": 0, "total": 0})
+        for i, (p, r, f1) in enumerate(zip(P, R, F1)):
+            res = results[self.annotations[i]["sents"]]
+            res["sum_p"] += float(p)
+            res["sum_r"] += float(r)
+            res["sum_f1"] += float(f1)
+            res["tp"] += int(f1 > 0.9)
+            res["total"] += 1
+            
+        
+        return {
+            "summary": {
+                "precision": float(torch.mean(P)),
+                "recall": float(torch.mean(R)),
+                "f1": float(torch.mean(F1)),
+                "accuracy": sum(res["tp"] for res in results.values()) / sum(res["total"] for res in results.values()),
+            },
+            "details": results
+        }
 
 
-class CMCaptionDataset(RefDetDataset):
+
+class CMCaptionDataset(InvRefDetDataset):
     def __init__(self, *args, **kwargs):
         super(CMCaptionDataset, self).__init__(*args, **kwargs)
 
@@ -184,16 +199,3 @@ class CMCaptionDataset(RefDetDataset):
             "[cm-caption] What happened? Summarize it simply in one phrase."
         ]
     
-    def __getitem__(self, idx):
-        self.prepare(idx)
-        data = self.dataset[idx]
-
-        instruction = random.choice(self.instruction_pool)
-
-        instruction = "<Img><ImageHere></Img> {} ".format(instruction)
-
-        return {
-            "image": data['image'],
-            "instruction_input": instruction,
-            "answer": self.text_processor(data['refer_sentence']),
-        }

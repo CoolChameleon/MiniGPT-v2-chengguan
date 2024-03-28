@@ -8,3 +8,6 @@ datasets:
       eval:
         image_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/caption_v1/val/images
         ann_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/caption_v1/val/annotations.json
+      test:
+        image_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/caption_v1/test/images
+        ann_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/chengguan_dataset/caption_v1/test/annotations.json

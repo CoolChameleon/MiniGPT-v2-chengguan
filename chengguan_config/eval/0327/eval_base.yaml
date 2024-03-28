@@ -6,7 +6,7 @@ model:
   low_resource: False
   prompt_template: '[INST] {} [/INST]'
   llama_model: "/data00/hc/checkpoint/huggingface/models--meta-llama--Llama-2-7b-hf"
-  ckpt: "/home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/checkpoint/multitask_finetune_0324/20240324231049/checkpoint_12.pth"
+  ckpt: "/home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/checkpoint/debug_finetune_0310/20240310190/checkpoint_37.pth"
   lora_r: 64
   lora_alpha: 16
 
@@ -45,7 +45,7 @@ datasets:
 run:
   task: image_text_pretrain
   name: minigptv2_evaluation
-  save_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/results/multitask_0324
+  save_path: /home/hc/workspace/real_graduate/MiniGPT-v2-chengguan/results/benchmark_0328
 
   
 
